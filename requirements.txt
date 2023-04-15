@@ -1,8 +1,5 @@
 pandas
 StringIO
 numpy
-matplotlib.pyplot
-sklearn.cluster
-sklearn.preprocessing
-sklearn.impute
-sklearn.preprocessing
+matplotlib
+sklearn

@@ -232,6 +232,24 @@ if uploaded_file is not None:
       # nombre de clusters (excluant le bruit)
       n_clusters = len(np.unique(dbscan.labels_)) - (1 if -1 in dbscan.labels_ else 0)
       st.write(f"Nombre de clusters: {n_clusters}")
+      # Inertie intra-classe et inter-classe
+      groups = {}
+      for label in np.unique(dbscan.labels_):
+          if label != -1:
+              groups[label] = X[dbscan.labels_ == label]
+              
+      inertia_inter = 0
+      inertia_intra = 0
+      for label in groups:
+          group = groups[label]
+          group_mean = group.mean(axis=0)
+          group_size = len(group)
+          group_inertia = ((group - group_mean) ** 2).sum().sum()
+          inertia_intra += group_inertia
+          inertia_inter += group_size * ((group_mean - X.mean(axis=0)) ** 2).sum()
+
+      st.sidebar.success(f"Inertie intra-classe : {inertia_intra}", icon="✅")
+      st.sidebar.success(f"Inertie inter-classe : {inertia_inter}", icon="✅")
 
 
 
